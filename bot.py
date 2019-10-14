@@ -1,7 +1,6 @@
 
 #THIS BOT IS CREATED WITH ANOTHER FILE WITH THE KEYS AND TOKENS FROM THE API TWITTE
 
-
 import tweepy
 import random
 import logging
@@ -40,7 +39,7 @@ def checkNumberFile(dir):
     return number_files
     
 
-def check_mentions(api, keywords, since_id):
+def check_menciones(api, palabras, since_id):
     logger.info("Recolectando menciones")
     new_since_id = since_id
     txt = A_DIR+"\{}.jpg"
@@ -67,11 +66,7 @@ def check_mentions(api, keywords, since_id):
                                       auto_populate_reply_metadata=True)
             else:
                 logger.info(f"{tweet.user.name} ya ha sido contestado")
-               
-            #api.media_upload(filename = txt.format(number),
-            #                         status="Sí.",
-            #                         in_reply_to_status_id=tweet.id)
-        
+
     return new_since_id
 
 def tuitearInicioIntermedioFinal(api,inicio,intermedio,final):
@@ -106,7 +101,7 @@ def tuitearPregunta(api,inicio,intermedio,final):
     
     logger.info(f"Tuiteando pregunta")
     try:
-        api.update_status(status=inicio[r1]+intermedio[r2]+final[r3])
+        api.update_status(status=inicio[r1]+intermedio[r2]+final[r3]+"?")
     except Exception as e:
         logger.error("Tweet repetido?", exc_info=True)
         raise e
@@ -114,9 +109,9 @@ def tuitearPregunta(api,inicio,intermedio,final):
 def main(): 
     since_id = 1
     while True:
-        rand = random.randint(1,3)
-        if (rand == 1 or rand == 3):
-            since_id = check_mentions(api, ["cuando", "cuantos", "campaña", "cuántos", "Cuantos","para",
+        rand = random.randint(1,4)
+        if (rand == 1 or rand == 3 or rand == 4):
+            since_id = check_menciones(api, ["cuando", "cuantos", "campaña", "cuántos", "Cuantos","para",
                                             "rol","juega","zaakori", "cual", "Cual", "Cuál", 
                                             "cuál", "050", "rodrigo", "abygail", "profeta",
                                             "bestia", "ahogada", "cuándo", "Rol",
@@ -132,7 +127,7 @@ def main():
             else:
                 tuitearPregunta(api,INICIO_PREGUNTA,INTERMEDIO_PREGUNTA,FINAL_INTERMEDIO)
             logger.info("Tuiteado.")
-            time.sleep(200)
+            time.sleep(1000)
 
         
 
